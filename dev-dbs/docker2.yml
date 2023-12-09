@@ -1,0 +1,24 @@
+version: '3'
+services:
+  postgres:
+    container_name: gia_pg_12.15
+    command: [  "postgres", "-c", "log_statement=all" ]
+    volumes:
+      - ./docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+    image: postgres:12.15
+    expose:
+      - 5432
+    ports:
+      - '5432:5432'
+    environment:
+      - POSTGRES_DB=azdev
+      - POSTGRES_PASSWORD=password
+      - PGDATA=azdev-data
+  mongo:
+    container_name: gia_mongo
+    image: agilelabs/gia-mongo:main
+    command: --dbpath azdev-data/db
+    expose:
+      - 27017
+    ports:
+      - '27017:27017'
